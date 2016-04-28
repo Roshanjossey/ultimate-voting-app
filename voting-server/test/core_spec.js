@@ -41,6 +41,63 @@ describe('application logic', () => {
         entries: List.of('Funny Games')
       }));
     });
+
+    it('puts winner of current vote back to entries', () => {
+      const state = Map({
+        vote: Map({
+          pair: List.of('Cache', 'Amour'),
+          tally: Map({
+            'Cache': 322,
+            'Amour': 235
+          })
+        }),
+        entries: List.of('Funny Games', 'Code Unknown', 'White Ribbon')
+      });
+      const nextState = next(state);
+      expect(nextState).to.equal(Map({
+        vote: Map({
+          pair: List.of('Funny Games', 'Code Unknown')
+        }),
+        entries: List.of('White Ribbon', 'Cache')
+      }));
+    });
+
+    it('puts both from tied vote back to entries', () => {
+      const state = Map({
+        vote: Map({
+          pair: List.of('Cache', 'Amour'),
+          tally: Map({
+            'Cache': 356,
+            'Amour': 356
+          })
+        }),
+        entries: List.of('Funny Games', 'Code Unknown', 'White Ribbon')
+      });
+      const nextState = next(state);
+      expect(nextState).to.equal(Map({
+        vote: Map({
+          pair: List.of('Funny Games', 'Code Unknown')
+        }),
+        entries: List.of('White Ribbon', 'Cache', 'Amour')
+      }));
+    });
+
+    it('marks the winner when left with one entry', () => {
+      const state = Map({
+        vote: Map({
+          pair: List.of('Cache', 'Amour'),
+          tally: Map({
+            'Cache': 413,
+            'Amour': 233
+          })
+        }),
+        entries: List()
+      });
+      const nextState = next(state);
+      expect(nextState).to.equal(Map({
+        winner: 'Cache'
+      }));
+    });
   });
 
   describe('vote', () => {
