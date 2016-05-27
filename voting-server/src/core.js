@@ -11,6 +11,7 @@ function getWinners(vote) {
 }
 
 export function setEntries(state, entries) {
+  console.log(entries);
   return state.set('entries', List(entries));
 }
 
@@ -35,3 +36,5 @@ export function vote(state, entry) {
     tally => tally + 1
   );
 }
+
+export const INITIAL_STATE = Map();

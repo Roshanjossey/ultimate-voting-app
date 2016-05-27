@@ -48,4 +48,12 @@ describe ('reducer', () => {
     }));
 
   });
+
+  it('has an initial state', () => {
+    const action = {type: 'SET_ENTRIES', entry: ['Cache']};
+    const nextState = reducer(undefined, action);
+    expect(nextState).to.equal(fromJS({
+      entries: ['Cache']
+    }));
+  });
 });
